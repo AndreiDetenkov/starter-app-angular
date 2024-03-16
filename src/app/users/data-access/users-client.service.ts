@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment.development'
 @Injectable({
 	providedIn: 'root',
 })
-export class UsersApiService {
+export class UsersClientService {
 	constructor(private http: HttpClient) {}
 
 	fetchUsers(): Observable<UserResponseInterface[]> {

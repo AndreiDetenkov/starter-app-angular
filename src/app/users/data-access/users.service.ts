@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable } from 'rxjs'
 
 import { UserInterface } from './types/user.interface'
-import { UsersApiService } from './users-api.service'
 
 @Injectable()
 export class UsersService {
-	users: UserInterface[] = []
+	private _users$: BehaviorSubject<UserInterface[]> = new BehaviorSubject<UserInterface[]>([])
 
-	constructor(private usersApiService: UsersApiService) {}
+	public readonly users$: Observable<UserInterface[]> = this._users$.asObservable()
 
-	getUsers() {
-		this.usersApiService.fetchUsers().subscribe((users: UserInterface[]) => (this.users = users))
+	set setUsers(users: UserInterface[]) {
+		this._users$.next(users)
 	}
 }
