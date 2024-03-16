@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 
 import { UsersService } from '../../data-access/users.service'
 
 @Component({
 	selector: 'app-users-list',
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [],
 	providers: [UsersService],
 	templateUrl: './users-list.component.html',

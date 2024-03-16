@@ -5,7 +5,9 @@ import { HttpClient } from '@angular/common/http'
 import { UserResponseInterface } from './types/user-response.interface'
 import { environment } from '../../../environments/environment.development'
 
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class UsersApiService {
 	constructor(private http: HttpClient) {}
 
