@@ -38,6 +38,6 @@ export class UsersListComponent implements OnInit {
 	}
 
 	handleClick(id: number): void {
-		console.log(id)
+		this.usersService.removeUserById(id)
 	}
 }

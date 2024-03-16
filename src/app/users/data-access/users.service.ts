@@ -12,4 +12,16 @@ export class UsersService {
 	set setUsers(users: UserInterface[]) {
 		this._users$.next(users)
 	}
+
+	get getUsers(): UserInterface[] {
+		return this._users$.getValue()
+	}
+
+	removeUserById(id: number): void {
+		const filteredUsers: UserInterface[] = this.getUsers.filter(
+			(user: UserInterface) => user.id !== id,
+		)
+
+		this._users$.next(filteredUsers)
+	}
 }
