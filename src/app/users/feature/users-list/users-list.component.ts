@@ -5,12 +5,13 @@ import { UsersService } from '../../data-access/users.service'
 import { GetUsersUseCase } from '../../data-access/get-users.usecase'
 import { GetUsersService } from '../../data-access/get-users.service'
 import { UserInterface } from '../../data-access/types/user.interface'
+import { UserCardComponent } from '../../ui/user-card/user-card.component'
 
 @Component({
 	selector: 'app-users-list',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule],
+	imports: [CommonModule, UserCardComponent],
 	providers: [
 		{
 			provide: GetUsersUseCase,
