@@ -1,1 +1,11 @@
-<app-user-card *ngFor="let user of users | async" [user]="user" />
+<app-user-card
+	*ngFor="let user of users | async"
+	[user]="{
+		id: user.id,
+		name: user.name,
+		website: user.website,
+		phone: user.phone,
+		email: user.email
+	}"
+	(onClick)="handleClick($event)"
+/>

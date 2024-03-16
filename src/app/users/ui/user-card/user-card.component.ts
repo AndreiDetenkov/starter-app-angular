@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 
-import { UserInterface } from '../../data-access/types/user.interface'
+import { UserCardInterface } from '../../data-access/types/user-card.interface'
 
 @Component({
 	selector: 'app-user-card',
@@ -11,10 +11,11 @@ import { UserInterface } from '../../data-access/types/user.interface'
 		<div class="card">
 			<ul>
 				<li>{{ user.name }}</li>
-				<li>{{ user.company.name }}</li>
+				<li>{{ user.website }}</li>
 				<li>{{ user.phone }}</li>
 				<li>{{ user.email }}</li>
 			</ul>
+			<button (click)="getUserId()">Remove</button>
 		</div>
 	`,
 	styles: [
@@ -31,5 +32,10 @@ import { UserInterface } from '../../data-access/types/user.interface'
 	],
 })
 export class UserCardComponent {
-	@Input() user!: UserInterface
+	@Input({ required: true }) user!: UserCardInterface
+
+	@Output() onClick = new EventEmitter<number>()
+	getUserId() {
+		this.onClick.emit(this.user.id)
+	}
 }

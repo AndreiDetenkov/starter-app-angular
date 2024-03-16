@@ -36,4 +36,8 @@ export class UsersListComponent implements OnInit {
 			.pipe(take(1))
 			.subscribe((users: UserInterface[]) => (this.usersService.setUsers = users))
 	}
+
+	handleClick(id: number): void {
+		console.log(id)
+	}
 }
