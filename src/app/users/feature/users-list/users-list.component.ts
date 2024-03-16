@@ -30,8 +30,8 @@ export class UsersListComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.getUsersUseCase.execute().subscribe((users: UserInterface[]) => {
-			this.usersService.setUsers = users
-		})
+		this.getUsersUseCase
+			.execute()
+			.subscribe((users: UserInterface[]) => (this.usersService.setUsers = users))
 	}
 }
