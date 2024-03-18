@@ -12,46 +12,47 @@ import { UserInterface } from '../../data-access/types/user.interface'
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
 import { ContainerComponent } from '../../../shared/ui/container/container.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
+
 @Component({
-	selector: 'app-users-list',
-	standalone: true,
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, MatButtonModule, UserCardComponent, ContainerComponent],
-	providers: [
-		{
-			provide: GetUsersUseCase,
-			useClass: GetUsersService,
-		},
-		UsersService,
-	],
-	templateUrl: './users-list.component.html',
-	styleUrl: './users-list.component.scss',
+  selector: 'app-users-list',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, MatButtonModule, UserCardComponent, ContainerComponent],
+  providers: [
+    {
+      provide: GetUsersUseCase,
+      useClass: GetUsersService,
+    },
+    UsersService,
+  ],
+  templateUrl: './users-list.component.html',
+  styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
-	users = this.usersService.users$
+  users = this.usersService.users$
 
-	constructor(
-		private getUsersUseCase: GetUsersUseCase,
-		private usersService: UsersService,
-		private dialog: MatDialog,
-	) {}
+  constructor(
+    private getUsersUseCase: GetUsersUseCase,
+    private usersService: UsersService,
+    private dialog: MatDialog,
+  ) {}
 
-	ngOnInit(): void {
-		this.getUsersUseCase
-			.execute()
-			.pipe(take(1))
-			.subscribe((users: UserInterface[]) => (this.usersService.setUsers = users))
-	}
+  ngOnInit(): void {
+    this.getUsersUseCase
+      .execute()
+      .pipe(take(1))
+      .subscribe((users: UserInterface[]) => (this.usersService.setUsers = users))
+  }
 
-	removeUser(id: number): void {
-		this.usersService.removeUserById(id)
-	}
+  removeUser(id: number): void {
+    this.usersService.removeUserById(id)
+  }
 
-	openDialog(): void {
-		const dialogRef = this.dialog.open(CreateEditUserModalComponent, {})
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateEditUserModalComponent, {})
 
-		dialogRef.afterClosed().subscribe((result) => {
-			console.log(`Dialog result: ${result}`)
-		})
-	}
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`)
+    })
+  }
 }
