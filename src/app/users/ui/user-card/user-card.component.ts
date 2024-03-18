@@ -12,18 +12,11 @@ import { MatIconModule } from '@angular/material/icon'
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCardModule, MatButtonModule, MatListModule, MatIconModule],
   templateUrl: './user-card.component.html',
-  styles: [
-    `
-      .card {
-        margin-bottom: 20px;
-      }
-    `,
-  ],
 })
 export class UserCardComponent {
   @Input({
     required: true,
-    transform: (user) => {
+    transform: (user: UserCardInterface) => {
       return {
         id: user.id,
         name: user.name,

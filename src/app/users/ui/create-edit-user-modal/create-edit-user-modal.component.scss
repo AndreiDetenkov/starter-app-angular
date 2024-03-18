@@ -1,0 +1,11 @@
+.form {
+  display: grid;
+
+  &__field {
+    margin-bottom: 4px;
+  }
+
+  &__btn {
+    margin-top: 12px;
+  }
+}

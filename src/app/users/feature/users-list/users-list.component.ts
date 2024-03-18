@@ -10,8 +10,8 @@ import { GetUsersService } from '../../data-access/get-users.service'
 import { UserInterface } from '../../data-access/types/user.interface'
 
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
-import { ContainerComponent } from '../../../shared/ui/container/container.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
+import { ContainerComponent } from '../../../shared/ui/container/container.component'
 
 @Component({
   selector: 'app-users-list',
@@ -49,10 +49,13 @@ export class UsersListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(CreateEditUserModalComponent, {})
+    const dialogRef = this.dialog.open(CreateEditUserModalComponent, {
+      maxWidth: '380px',
+      width: '100%',
+    })
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`)
+    dialogRef.afterClosed().subscribe((userData) => {
+      this.usersService.addUser(userData)
     })
   }
 }
