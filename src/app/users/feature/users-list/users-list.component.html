@@ -1,5 +1,7 @@
 <app-container>
-	<button mat-raised-button color="primary">Primary</button>
+	<div class="panel">
+		<button mat-raised-button color="primary">Add User</button>
+	</div>
 
 	@for (user of users | async; track user.name) {
 		<app-user-card
