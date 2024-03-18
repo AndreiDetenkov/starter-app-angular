@@ -7,11 +7,13 @@ import { GetUsersUseCase } from '../../data-access/get-users.usecase'
 import { GetUsersService } from '../../data-access/get-users.service'
 import { UserInterface } from '../../data-access/types/user.interface'
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
+import { MatButtonModule } from '@angular/material/button'
+import { ContainerComponent } from '../../../shared/ui/container/container.component'
 @Component({
 	selector: 'app-users-list',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, UserCardComponent],
+	imports: [CommonModule, UserCardComponent, MatButtonModule, ContainerComponent],
 	providers: [
 		{
 			provide: GetUsersUseCase,
