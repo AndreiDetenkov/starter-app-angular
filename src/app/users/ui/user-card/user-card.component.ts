@@ -1,32 +1,21 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button'
+import { MatListModule } from '@angular/material/list'
 
 import { UserCardInterface } from '../../data-access/types/user-card.interface'
+import { MatIconModule } from '@angular/material/icon'
 
 @Component({
 	selector: 'app-user-card',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [],
-	template: `
-		<div class="card">
-			<ul>
-				<li>{{ user.name }}</li>
-				<li>{{ user.website }}</li>
-				<li>{{ user.phone }}</li>
-				<li>{{ user.email }}</li>
-			</ul>
-			<button (click)="getUserId()">Remove</button>
-		</div>
-	`,
+	imports: [MatCardModule, MatButtonModule, MatListModule, MatIconModule],
+	templateUrl: './user-card.component.html',
 	styles: [
 		`
 			.card {
 				margin-bottom: 20px;
-				padding: 10px;
-				border: 1px solid #e2e2e2;
-				border-radius: 10px;
-				font-size: 16px;
-				color: #333;
 			}
 		`,
 	],
