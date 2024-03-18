@@ -24,7 +24,7 @@ export class UserCardComponent {
 	@Input({ required: true }) user!: UserCardInterface
 
 	@Output() onClick = new EventEmitter<number>()
-	getUserId() {
+	onRemove() {
 		this.onClick.emit(this.user.id)
 	}
 }

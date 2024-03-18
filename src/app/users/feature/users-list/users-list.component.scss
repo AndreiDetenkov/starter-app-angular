@@ -1,6 +1,12 @@
 .panel {
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.grid-users-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
 }

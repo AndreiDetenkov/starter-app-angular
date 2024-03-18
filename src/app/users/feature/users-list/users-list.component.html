@@ -1,20 +1,22 @@
 <app-container>
-	<div class="panel">
-		<button mat-raised-button color="primary">Add User</button>
-	</div>
+  <div class="panel">
+    <button mat-raised-button color="primary" (click)="openDialog()">Add User</button>
+  </div>
 
-	@for (user of users | async; track user.name) {
-		<app-user-card
-			[user]="{
-				id: user.id,
-				name: user.name,
-				website: user.website,
-				phone: user.phone,
-				email: user.email
-			}"
-			(onClick)="handleClick($event)"
-		/>
-	} @empty {
-		<p>No users found</p>
-	}
+  <div class="grid-users-list">
+    @for (user of users | async; track user.name) {
+      <app-user-card
+        [user]="{
+          id: user.id,
+          name: user.name,
+          website: user.website,
+          phone: user.phone,
+          email: user.email
+        }"
+        (onClick)="removeUser($event)"
+      />
+    } @empty {
+      <p>No users found</p>
+    }
+  </div>
 </app-container>
