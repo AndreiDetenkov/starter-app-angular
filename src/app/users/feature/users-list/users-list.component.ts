@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, OnInit, Signal } from '@angular/core'
+import { Observable, take } from 'rxjs'
+import { ChangeDetectionStrategy, Component, computed, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
-import { Observable, take } from 'rxjs'
 
 import { UsersService } from '../../data-access/users.service'
 import { GetUsersUseCase } from '../../data-access/get-users.usecase'
-import { GetUsersService } from '../../data-access/get-users.service'
+import { NotifyUseCase } from '../../../shared/services/notify/notify.usecase'
 import { UserInterface } from '../../data-access/types/user.interface'
 
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
@@ -19,13 +19,7 @@ import { UserCardInterface } from '../../data-access/types/user-card.interface'
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, MatButtonModule, UserCardComponent, ContainerComponent],
-  providers: [
-    {
-      provide: GetUsersUseCase,
-      useClass: GetUsersService,
-    },
-    UsersService,
-  ],
+  providers: [UsersService],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
 })
@@ -34,6 +28,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private getUsersUseCase: GetUsersUseCase,
+    private notify: NotifyUseCase,
     private usersService: UsersService,
     private dialog: MatDialog,
   ) {}
@@ -47,6 +42,7 @@ export class UsersListComponent implements OnInit {
 
   removeUser(id: number): void {
     this.usersService.removeUserById(id)
+    this.notify.success('Removed successfully', 'Close')
   }
 
   openDialog(user?: UserCardInterface): void {
