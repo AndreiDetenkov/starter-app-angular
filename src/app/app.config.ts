@@ -8,6 +8,8 @@ import { NotifyUseCase } from './shared/services/notify/notify.usecase'
 import { NotifyService } from './shared/services/notify/notify.service'
 import { GetUsersUseCase } from './users/data-access/get-users.usecase'
 import { GetUsersService } from './users/data-access/get-users.service'
+import { StorageService } from './shared/services/storage/storage.service'
+import { StorageUseCase } from './shared/services/storage/storage.usecase'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +23,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: NotifyUseCase,
       useClass: NotifyService,
+    },
+    {
+      provide: StorageUseCase,
+      useClass: StorageService,
     },
   ],
 }

@@ -11,8 +11,9 @@ import { UserInterface } from '../../data-access/types/user.interface'
 import { UserCardInterface } from '../../data-access/types/user-card.interface'
 
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
-import { ContainerComponent } from '../../../shared/ui/container/container.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
+import { ContainerComponent } from '../../../shared/ui/container/container.component'
+import { StorageUseCase } from '../../../shared/services/storage/storage.usecase'
 
 @Component({
   selector: 'app-users-list',
@@ -29,6 +30,7 @@ export class UsersListComponent implements OnInit {
   constructor(
     private getUsersUseCase: GetUsersUseCase,
     private notify: NotifyUseCase,
+    private storageService: StorageUseCase,
     private usersService: UsersService,
     private dialog: MatDialog,
   ) {}
