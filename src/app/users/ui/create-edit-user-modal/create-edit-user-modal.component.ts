@@ -1,14 +1,20 @@
-import { Component } from '@angular/core'
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'
+import { ChangeDetectionStrategy, Component, computed, Inject, OnInit, Signal } from '@angular/core'
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+
+import { UserInterface } from '../../data-access/types/user.interface'
+import { buttonLabel, titleLabel, userFormValidationMessages } from '../../utils/consts'
+import { UserFormValidationInterface } from '../../data-access/types/user-create-edit.interface'
+import { UserCardInterface } from '../../data-access/types/user-card.interface'
 
 @Component({
   selector: 'app-create-edit-user',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     MatDialogModule,
@@ -21,7 +27,9 @@ import { CommonModule } from '@angular/common'
   styleUrl: './create-edit-user-modal.component.scss',
 })
 export class CreateEditUserModalComponent {
-  userForm = this.fb.nonNullable.group({
+  userFormValidation: UserFormValidationInterface = userFormValidationMessages
+
+  userForm: FormGroup = this.fb.nonNullable.group({
     id: [Date.now()],
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
     website: [
@@ -32,35 +40,31 @@ export class CreateEditUserModalComponent {
         Validators.pattern('^[a-zA-Z0-9-.]+.[a-zA-Z]{2,3}(/S*)?$'),
       ],
     ],
-    phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+    phone: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
+      ],
+    ],
     email: ['', [Validators.required, Validators.email]],
   })
-
-  userFormValidationMessages = {
-    name: [
-      { type: 'required', message: `Name is required` },
-      { type: 'minlength', message: `Name must be at least 3 characters long` },
-      { type: 'maxlength', message: `Name cannot be more than 25 characters long` },
-    ],
-    website: [
-      { type: 'required', message: `Website is required` },
-      { type: 'minlength', message: `Website must be at least 5 characters long` },
-      { type: 'pattern', message: `Invalid website` },
-    ],
-    phone: [
-      { type: 'required', message: `Phone is required` },
-      { type: 'pattern', message: `Invalid phone number` },
-    ],
-    email: [
-      { type: 'required', message: `Email is required` },
-      { type: 'pattern', message: `Enter a valid email address` },
-    ],
-  }
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CreateEditUserModalComponent>,
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: { user?: UserCardInterface },
+  ) {
+    this.data.user && this.userForm.patchValue(this.data.user)
+  }
+
+  isEdit: Signal<boolean> = computed(() => Boolean(this.data.user))
+
+  titleText: Signal<string> = computed(() => (this.isEdit() ? titleLabel.edit : titleLabel.create))
+
+  buttonText: Signal<string> = computed(() =>
+    this.isEdit() ? buttonLabel.edit : buttonLabel.create,
+  )
 
   onSubmit(): void {
     if (this.userForm.valid) {

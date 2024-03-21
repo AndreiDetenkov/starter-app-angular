@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 
 import { UserInterface } from './types/user.interface'
+import { UserCardInterface } from './types/user-card.interface'
 
 @Injectable()
 export class UsersService {
@@ -27,5 +28,17 @@ export class UsersService {
 
   addUser(user: UserInterface): void {
     this._users$.next([...this.getUsers, user])
+  }
+
+  updateUser(user: UserInterface): void {
+    const updatedUsers: UserInterface[] = this.getUsers.map((currentUser: UserInterface) =>
+      currentUser.id === user.id ? user : currentUser,
+    )
+
+    this._users$.next(updatedUsers)
+  }
+
+  getUserById(id: number): UserInterface {
+    return this.getUsers.find((user: UserInterface) => user.id === id) as UserInterface
   }
 }

@@ -1,12 +1,12 @@
-<h2 mat-dialog-title>Create User</h2>
+<h2 mat-dialog-title>{{ titleText() }}</h2>
 
 <mat-dialog-content>
   <form class="form" [formGroup]="userForm" (submit)="onSubmit()">
     <mat-form-field class="form__field">
       <mat-label>Name</mat-label>
       <input matInput autofocus formControlName="name" placeholder="Type your name" />
-      @for (validation of userFormValidationMessages.name; track validation.type) {
-        <mat-error *ngIf="userForm.controls.name.hasError(validation.type)">
+      @for (validation of userFormValidation['name']; track validation.type) {
+        <mat-error *ngIf="userForm.controls['name'].hasError(validation.type)">
           {{ validation.message }}
         </mat-error>
       }
@@ -15,8 +15,8 @@
     <mat-form-field class="form__field">
       <mat-label>Website</mat-label>
       <input matInput formControlName="website" placeholder="Type a website" />
-      @for (validation of userFormValidationMessages.website; track validation.type) {
-        <mat-error *ngIf="userForm.controls.website.hasError(validation.type)">
+      @for (validation of userFormValidation.website; track validation.type) {
+        <mat-error *ngIf="userForm.controls['website'].hasError(validation.type)">
           {{ validation.message }}
         </mat-error>
       }
@@ -25,8 +25,8 @@
     <mat-form-field class="form__field">
       <mat-label>Phone</mat-label>
       <input type="tel" matInput formControlName="phone" placeholder="Type a phone" />
-      @for (validation of userFormValidationMessages.phone; track validation.type) {
-        <mat-error *ngIf="userForm.controls.phone.hasError(validation.type)">
+      @for (validation of userFormValidation.phone; track validation.type) {
+        <mat-error *ngIf="userForm.controls['phone'].hasError(validation.type)">
           {{ validation.message }}
         </mat-error>
       }
@@ -35,21 +35,15 @@
     <mat-form-field class="form__field">
       <mat-label>Email</mat-label>
       <input type="email" matInput formControlName="email" placeholder="Type an email" />
-      @for (validation of userFormValidationMessages.email; track validation.type) {
-        <mat-error *ngIf="userForm.controls.email.hasError(validation.type)">
+      @for (validation of userFormValidation.email; track validation.type) {
+        <mat-error *ngIf="userForm.controls['email'].hasError(validation.type)">
           {{ validation.message }}
         </mat-error>
       }
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      class="form__btn"
-      [disabled]="!userForm.valid"
-    >
-      Create
+    <button mat-raised-button color="primary" type="submit" class="form__btn">
+      {{ buttonText() }}
     </button>
   </form>
 </mat-dialog-content>

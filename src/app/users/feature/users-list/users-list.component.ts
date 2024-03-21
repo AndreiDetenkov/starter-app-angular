@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, OnInit, Signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatButtonModule } from '@angular/material/button'
-import { MatDialog } from '@angular/material/dialog'
-import { take } from 'rxjs'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { Observable, take } from 'rxjs'
 
 import { UsersService } from '../../data-access/users.service'
 import { GetUsersUseCase } from '../../data-access/get-users.usecase'
@@ -12,6 +12,7 @@ import { UserInterface } from '../../data-access/types/user.interface'
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
 import { ContainerComponent } from '../../../shared/ui/container/container.component'
+import { UserCardInterface } from '../../data-access/types/user-card.interface'
 
 @Component({
   selector: 'app-users-list',
@@ -29,7 +30,7 @@ import { ContainerComponent } from '../../../shared/ui/container/container.compo
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
-  users = this.usersService.users$
+  users: Observable<UserInterface[]> = this.usersService.users$
 
   constructor(
     private getUsersUseCase: GetUsersUseCase,
@@ -48,14 +49,16 @@ export class UsersListComponent implements OnInit {
     this.usersService.removeUserById(id)
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(CreateEditUserModalComponent, {
-      maxWidth: '380px',
-      width: '100%',
-    })
+  openDialog(user?: UserCardInterface): void {
+    const isEdit: Signal<boolean> = computed(() => Boolean(user))
 
-    dialogRef.afterClosed().subscribe((userData) => {
-      this.usersService.addUser(userData)
+    const dialogRef: MatDialogRef<CreateEditUserModalComponent> = this.dialog.open(
+      CreateEditUserModalComponent,
+      { maxWidth: '380px', width: '100%', data: { user } },
+    )
+
+    dialogRef.afterClosed().subscribe((userData): void => {
+      isEdit() ? this.usersService.updateUser(userData) : this.usersService.addUser(userData)
     })
   }
 }
