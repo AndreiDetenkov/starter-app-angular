@@ -6,10 +6,9 @@ import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 
-import { UserInterface } from '../../data-access/types/user.interface'
 import { buttonLabel, titleLabel, userFormValidationMessages } from '../../utils/consts'
 import { UserFormValidationInterface } from '../../data-access/types/user-create-edit.interface'
-import { UserCardInterface } from '../../data-access/types/user-card.interface'
+import { UserInterface } from '../../data-access/types/user.interface'
 
 @Component({
   selector: 'app-create-edit-user',
@@ -53,7 +52,7 @@ export class CreateEditUserModalComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CreateEditUserModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user?: UserCardInterface },
+    @Inject(MAT_DIALOG_DATA) public data: { user?: UserInterface },
   ) {
     this.data.user && this.userForm.patchValue(this.data.user)
   }

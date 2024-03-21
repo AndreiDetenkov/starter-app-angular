@@ -8,7 +8,6 @@ import { UsersService } from '../../data-access/users.service'
 import { GetUsersUseCase } from '../../data-access/get-users.usecase'
 import { NotifyUseCase } from '../../../shared/services/notify/notify.usecase'
 import { UserInterface } from '../../data-access/types/user.interface'
-import { UserCardInterface } from '../../data-access/types/user-card.interface'
 
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
@@ -29,25 +28,54 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private getUsersUseCase: GetUsersUseCase,
-    private notify: NotifyUseCase,
+    private notifyService: NotifyUseCase,
     private storageService: StorageUseCase,
     private usersService: UsersService,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
+    const users = this.storageService.get('users')
+    if (!users) {
+      this.fetchUsersAndStore()
+    } else {
+      this.usersService.setUsers(users as UserInterface[])
+    }
+  }
+
+  fetchUsersAndStore(): void {
     this.getUsersUseCase
       .execute()
       .pipe(take(1))
-      .subscribe((users: UserInterface[]) => (this.usersService.setUsers = users))
+      .subscribe((users: UserInterface[]) => {
+        this.usersService.setUsers(users)
+        this.storageService.set('users', users)
+      })
   }
 
-  removeUser(id: number): void {
+  notifyAndStorage(msg: string): void {
+    this.users.pipe(take(1)).subscribe((users) => {
+      this.notifyService.success(msg)
+      this.storageService.set('users', users)
+    })
+  }
+
+  removeUserHandler(id: number): void {
     this.usersService.removeUserById(id)
-    this.notify.success('Removed successfully', 'Close')
+    this.notifyAndStorage('Updated successfully!')
   }
 
-  openDialog(user?: UserCardInterface): void {
+  addUserHandler(userData: UserInterface): void {
+    this.usersService.addUser(userData)
+    this.notifyAndStorage('Added successfully!')
+  }
+
+  updateUserHandler(userData: UserInterface): void {
+    this.usersService.updateUser(userData)
+    this.notifyAndStorage('Updated successfully!')
+  }
+
+  openDialog(user?: UserInterface): void {
     const isEdit = computed<boolean>(() => Boolean(user))
 
     const dialogRef: MatDialogRef<CreateEditUserModalComponent> = this.dialog.open(
@@ -56,7 +84,7 @@ export class UsersListComponent implements OnInit {
     )
 
     dialogRef.afterClosed().subscribe((userData): void => {
-      isEdit() ? this.usersService.updateUser(userData) : this.usersService.addUser(userData)
+      isEdit() ? this.updateUserHandler(userData) : this.addUserHandler(userData)
     })
   }
 }

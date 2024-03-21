@@ -1,3 +1,3 @@
 export abstract class NotifyUseCase {
-  abstract success(message: string, action: string): void
+  abstract success(message: string): void
 }

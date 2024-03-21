@@ -1,11 +1,11 @@
 export interface UserFormValidationInterface {
-  name: ValidationMessagesInterface[]
-  website: ValidationMessagesInterface[]
-  phone: ValidationMessagesInterface[]
-  email: ValidationMessagesInterface[]
+  name: ValidationMessageInterface[]
+  website: ValidationMessageInterface[]
+  phone: ValidationMessageInterface[]
+  email: ValidationMessageInterface[]
 }
 
-interface ValidationMessagesInterface {
+interface ValidationMessageInterface {
   type: string
   message: string
 }

@@ -1,19 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  InputSignal,
-  InputSignalWithTransform,
-  output,
-  OutputEmitterRef,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatListModule } from '@angular/material/list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatTooltip } from '@angular/material/tooltip'
 
-import { UserCardInterface } from '../../data-access/types/user-card.interface'
+import { UserInterface } from '../../data-access/types/user.interface'
 
 @Component({
   selector: 'app-user-card',
@@ -24,19 +16,11 @@ import { UserCardInterface } from '../../data-access/types/user-card.interface'
   styleUrl: './user-card.component.scss',
 })
 export class UserCardComponent {
-  user: InputSignal<UserCardInterface> = input.required({
-    transform: (user) => ({
-      id: user.id,
-      name: user.name,
-      website: user.website,
-      email: user.email,
-      phone: user.phone,
-    }),
-  })
+  user = input.required<UserInterface>()
 
   remove = output<number>()
 
-  edit = output<UserCardInterface>()
+  edit = output<UserInterface>()
 
   onRemoveUser(): void {
     this.remove.emit(this.user().id)
