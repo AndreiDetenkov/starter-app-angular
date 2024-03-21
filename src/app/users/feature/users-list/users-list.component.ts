@@ -50,7 +50,7 @@ export class UsersListComponent implements OnInit {
   }
 
   openDialog(user?: UserCardInterface): void {
-    const isEdit: Signal<boolean> = computed(() => Boolean(user))
+    const isEdit = computed<boolean>(() => Boolean(user))
 
     const dialogRef: MatDialogRef<CreateEditUserModalComponent> = this.dialog.open(
       CreateEditUserModalComponent,

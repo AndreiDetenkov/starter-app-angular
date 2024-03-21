@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatTooltip } from '@angular/material/tooltip'
 
 import { UserCardInterface } from '../../data-access/types/user-card.interface'
-import { UserInterface } from '../../data-access/types/user.interface'
 
 @Component({
   selector: 'app-user-card',
