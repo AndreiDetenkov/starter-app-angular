@@ -8,11 +8,11 @@ import { UsersService } from '../../data-access/users.service'
 import { GetUsersUseCase } from '../../data-access/get-users.usecase'
 import { NotifyUseCase } from '../../../shared/services/notify/notify.usecase'
 import { UserInterface } from '../../data-access/types/user.interface'
+import { UserCardInterface } from '../../data-access/types/user-card.interface'
 
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
-import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
 import { ContainerComponent } from '../../../shared/ui/container/container.component'
-import { UserCardInterface } from '../../data-access/types/user-card.interface'
+import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
 
 @Component({
   selector: 'app-users-list',
