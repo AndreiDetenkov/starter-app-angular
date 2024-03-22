@@ -84,6 +84,8 @@ export class UsersListComponent implements OnInit {
     )
 
     dialogRef.afterClosed().subscribe((userData): void => {
+      if (!userData) return
+
       isEdit() ? this.updateUserHandler(userData) : this.addUserHandler(userData)
     })
   }
