@@ -1,22 +1,49 @@
-<mat-card class="card" appearance="outlined">
-  <mat-card-header>
+<mat-card class="card">
+  <mat-card-header class="card__header header">
+    <img
+      ngSrc="https://ui-avatars.com/api/?name={{ user().name }}&background=3f4fb5&color=fff"
+      mat-card-avatar
+      width="40"
+      height="40"
+      class="header__avatar"
+      alt="avatar"
+    />
     <mat-card-title>{{ user().name }}</mat-card-title>
+    <mat-card-subtitle>{{ companyName() }}</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content>
-    <mat-list role="list">
-      <mat-list-item role="listitem">Website: {{ user().website }}</mat-list-item>
-      <mat-list-item role="listitem">Phone: {{ user().phone }}</mat-list-item>
-      <mat-list-item role="listitem">Email: {{ user().email }}</mat-list-item>
-    </mat-list>
+  <mat-card-content class="card__content">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto incidunt non quia ullam
+      vel. Repellat.
+    </p>
+
+    @for (item of contentList(); track item.value) {
+      <p class="row">
+        <mat-icon aria-hidden="true" color="" [fontIcon]="item.icon" class="row__icon" />
+        {{ item.value }}
+      </p>
+    }
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button mat-stroked-button matTooltip="Edit User" color="primary" (click)="onEditUser()">
+    <button
+      mat-stroked-button
+      matTooltip="Edit User Info"
+      matTooltipPosition="above"
+      color="primary"
+      (click)="onEditUser()"
+    >
       <mat-icon>edit</mat-icon>
       Edit
     </button>
-    <button mat-stroked-button matTooltip="Delete User" color="warn" (click)="onRemoveUser()">
+    <button
+      mat-stroked-button
+      matTooltip="Delete User"
+      matTooltipPosition="above"
+      color="warn"
+      (click)="onRemoveUser()"
+    >
       <mat-icon>delete</mat-icon>
       Remove
     </button>

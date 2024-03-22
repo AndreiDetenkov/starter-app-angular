@@ -12,7 +12,11 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 16px;
   font-weight: 400;
-  color: #333;
+  color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --text-color: #333;
 }
