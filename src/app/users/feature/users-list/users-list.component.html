@@ -1,0 +1,17 @@
+<app-container>
+  <div class="panel">
+    <button mat-raised-button color="primary" (click)="openDialog()">Add User</button>
+  </div>
+
+  <div class="grid-users-list">
+    @for (user of users | async; track user.id) {
+      <app-user-card
+        [user]="user"
+        (remove)="removeUserHandler($event)"
+        (edit)="openDialog($event)"
+      />
+    } @empty {
+      <p>No users found</p>
+    }
+  </div>
+</app-container>
