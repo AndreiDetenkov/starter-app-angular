@@ -1,17 +1,22 @@
-import { ApplicationConfig } from '@angular/core'
+import { ApplicationConfig, isDevMode } from '@angular/core'
 import { provideRouter } from '@angular/router'
 import { provideHttpClient } from '@angular/common/http'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 
+import { provideStore } from '@ngrx/store'
+import { provideStoreDevtools } from '@ngrx/store-devtools'
+import { provideEffects } from '@ngrx/effects'
+
+import { metaReducers, reducers } from './reducers'
+
 import { routes } from './app.routes'
+
 import { NotifyUseCase } from './shared/services/notify/notify.usecase'
 import { NotifyService } from './shared/services/notify/notify.service'
 import { GetUsersUseCase } from './users/data-access/get-users.usecase'
 import { GetUsersService } from './users/data-access/get-users.service'
 import { StorageService } from './shared/services/storage/storage.service'
-import { StorageUseCase } from './shared/services/storage/storage.usecase';
-import { provideStore } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers'
+import { StorageUseCase } from './shared/services/storage/storage.usecase'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,17 +24,26 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimationsAsync(),
     {
-        provide: GetUsersUseCase,
-        useClass: GetUsersService,
+      provide: GetUsersUseCase,
+      useClass: GetUsersService,
     },
     {
-        provide: NotifyUseCase,
-        useClass: NotifyService,
+      provide: NotifyUseCase,
+      useClass: NotifyService,
     },
     {
-        provide: StorageUseCase,
-        useClass: StorageService,
+      provide: StorageUseCase,
+      useClass: StorageService,
     },
-    provideStore(reducers, { metaReducers })
-],
+    provideStore(reducers, { metaReducers }),
+    provideEffects(),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
+      connectInZone: true,
+    }),
+  ],
 }
