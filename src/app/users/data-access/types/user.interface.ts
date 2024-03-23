@@ -1,3 +1,8 @@
-import { UserResponseInterface } from './user-response.interface'
-
-export interface UserInterface extends UserResponseInterface {}
+export interface UserInterface {
+  id: number
+  name: string
+  email: string
+  phone: string
+  website: string
+  company?: string
+}

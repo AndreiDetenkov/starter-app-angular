@@ -35,7 +35,7 @@ export class UserCardComponent {
   user = input.required<UserInterface>()
 
   companyName = computed<string>(() => {
-    return this.user().company?.name ?? 'No company'
+    return this.user().company ?? 'No company'
   })
 
   contentList = computed<{ icon: string; value: string }[]>(() => {

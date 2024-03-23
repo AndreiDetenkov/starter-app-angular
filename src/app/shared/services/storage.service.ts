@@ -1,10 +1,9 @@
-import { StorageUseCase } from './storage.usecase'
 import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
 })
-export class StorageService implements StorageUseCase {
+export class StorageService {
   set(key: string, data: unknown): void {
     try {
       localStorage.setItem(key, JSON.stringify(data))

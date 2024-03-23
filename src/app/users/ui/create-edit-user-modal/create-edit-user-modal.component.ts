@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Inject, OnInit, Signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, Inject, Signal } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common'
 
 import { buttonLabel, titleLabel, userFormValidationMessages } from '../../utils/consts'
-import { UserFormValidationInterface } from '../../data-access/types/user-create-edit.interface'
+import { UserFormValidationInterface } from '../../data-access/types/user-form-validation.interface'
 import { UserInterface } from '../../data-access/types/user.interface'
 
 @Component({

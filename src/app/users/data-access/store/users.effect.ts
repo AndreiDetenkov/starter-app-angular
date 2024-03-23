@@ -2,7 +2,7 @@ import { catchError, exhaustMap, map, of } from 'rxjs'
 import { inject } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 
-import { UsersClientService } from '../users-client.service'
+import { UsersClientService } from '../services/users-client.service'
 import { usersActions } from './users.actions'
 import { UserInterface } from '../types/user.interface'
 
