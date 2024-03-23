@@ -6,8 +6,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideStore } from '@ngrx/store'
 import { provideStoreDevtools } from '@ngrx/store-devtools'
 import { provideEffects } from '@ngrx/effects'
+import { provideRouterStore } from '@ngrx/router-store'
 
 import { metaReducers, reducers } from './reducers'
+import * as usersEffects from './users/data-access/store/users.effect'
 
 import { routes } from './app.routes'
 
@@ -17,7 +19,6 @@ import { GetUsersUseCase } from './users/data-access/get-users.usecase'
 import { GetUsersService } from './users/data-access/get-users.service'
 import { StorageService } from './shared/services/storage/storage.service'
 import { StorageUseCase } from './shared/services/storage/storage.usecase'
-import { provideRouterStore } from '@ngrx/router-store'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,7 +38,7 @@ export const appConfig: ApplicationConfig = {
       useClass: StorageService,
     },
     provideStore(reducers, { metaReducers }),
-    provideEffects(),
+    provideEffects(usersEffects),
     provideRouterStore(),
     provideStoreDevtools({
       maxAge: 25,
