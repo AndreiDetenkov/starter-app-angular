@@ -1,4 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store'
+
 import { UserInterface } from '../types/user.interface'
 import { usersActions } from './users.actions'
 
@@ -28,6 +29,10 @@ const reducer = createReducer(
   on(usersActions.getUsersFailure, (state) => ({
     ...state,
     loading: false,
+  })),
+  on(usersActions.createUser, (state, { user }) => ({
+    ...state,
+    users: [...state.users, user],
   })),
 )
 

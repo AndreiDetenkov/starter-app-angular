@@ -1,4 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
+
 import { UserInterface } from '../types/user.interface'
 
 export const usersActions = createActionGroup({
@@ -7,5 +8,7 @@ export const usersActions = createActionGroup({
     getUsers: emptyProps(),
     getUsersSuccess: props<{ users: UserInterface[] }>(),
     getUsersFailure: emptyProps(),
+
+    createUser: props<{ user: UserInterface }>(),
   },
 })

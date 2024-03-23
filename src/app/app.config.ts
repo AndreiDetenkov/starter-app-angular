@@ -9,7 +9,8 @@ import { provideEffects } from '@ngrx/effects'
 import { provideRouterStore } from '@ngrx/router-store'
 
 import { metaReducers, reducers } from './reducers'
-import * as usersEffects from './users/data-access/store/users.effect'
+import * as usersEffects from './users/data-access/store/users.effects'
+import * as createUserEffect from './users/data-access/store/users.effects'
 
 import { routes } from './app.routes'
 
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimationsAsync(),
     provideStore(reducers, { metaReducers }),
-    provideEffects(usersEffects),
+    provideEffects(usersEffects, createUserEffect),
     provideRouterStore(),
     provideStoreDevtools({
       maxAge: 25,

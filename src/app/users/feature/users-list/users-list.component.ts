@@ -35,7 +35,9 @@ export class UsersListComponent implements OnInit {
     console.log(id)
   }
 
-  addUserHandler(userData: UserInterface): void {}
+  addUserHandler(user: UserInterface): void {
+    this.store.dispatch(usersActions.createUser({ user }))
+  }
 
   updateUserHandler(userData: UserInterface): void {}
 
