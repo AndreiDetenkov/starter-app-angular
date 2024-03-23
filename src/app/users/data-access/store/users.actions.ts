@@ -10,5 +10,7 @@ export const usersActions = createActionGroup({
     getUsersFailure: emptyProps(),
 
     createUser: props<{ user: UserInterface }>(),
+
+    removeUser: props<{ id: number }>(),
   },
 })

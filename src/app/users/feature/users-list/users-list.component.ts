@@ -32,11 +32,7 @@ export class UsersListComponent implements OnInit {
   }
 
   removeUserHandler(id: number): void {
-    console.log(id)
-  }
-
-  addUserHandler(user: UserInterface): void {
-    this.store.dispatch(usersActions.createUser({ user }))
+    this.store.dispatch(usersActions.removeUser({ id }))
   }
 
   updateUserHandler(userData: UserInterface): void {}
@@ -52,10 +48,12 @@ export class UsersListComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe((userData): void => {
-        if (!userData) return
+      .subscribe((user): void => {
+        if (!user) return
 
-        isEdit() ? this.updateUserHandler(userData) : this.addUserHandler(userData)
+        isEdit()
+          ? this.updateUserHandler(user)
+          : this.store.dispatch(usersActions.createUser({ user }))
       })
   }
 }

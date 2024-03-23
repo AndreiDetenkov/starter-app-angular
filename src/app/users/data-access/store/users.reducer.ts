@@ -34,6 +34,10 @@ const reducer = createReducer(
     ...state,
     users: [...state.users, user],
   })),
+  on(usersActions.removeUser, (state, { id }) => ({
+    ...state,
+    users: state.users.filter((user) => user.id !== id),
+  })),
 )
 
 export const usersFeature = createFeature({

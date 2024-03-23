@@ -46,3 +46,23 @@ export const createUserEffect = createEffect(
   },
   { functional: true, dispatch: false },
 )
+
+export const removeUserEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    notifyService = inject(NotifyService),
+    storageService = inject(StorageService),
+    store = inject(Store),
+  ) => {
+    return actions$.pipe(
+      ofType(usersActions.removeUser),
+      switchMap(() =>
+        store
+          .select(usersFeature.selectUsers)
+          .pipe(map((users) => storageService.set('users', users))),
+      ),
+      tap(() => notifyService.success('User removed!')),
+    )
+  },
+  { functional: true, dispatch: false },
+)
