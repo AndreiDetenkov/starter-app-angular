@@ -9,7 +9,9 @@ import { NotifyService } from './shared/services/notify/notify.service'
 import { GetUsersUseCase } from './users/data-access/get-users.usecase'
 import { GetUsersService } from './users/data-access/get-users.service'
 import { StorageService } from './shared/services/storage/storage.service'
-import { StorageUseCase } from './shared/services/storage/storage.usecase'
+import { StorageUseCase } from './shared/services/storage/storage.usecase';
+import { provideStore } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,16 +19,17 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimationsAsync(),
     {
-      provide: GetUsersUseCase,
-      useClass: GetUsersService,
+        provide: GetUsersUseCase,
+        useClass: GetUsersService,
     },
     {
-      provide: NotifyUseCase,
-      useClass: NotifyService,
+        provide: NotifyUseCase,
+        useClass: NotifyService,
     },
     {
-      provide: StorageUseCase,
-      useClass: StorageService,
+        provide: StorageUseCase,
+        useClass: StorageService,
     },
-  ],
+    provideStore(reducers, { metaReducers })
+],
 }
