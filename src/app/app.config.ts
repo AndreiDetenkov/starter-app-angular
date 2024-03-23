@@ -17,6 +17,7 @@ import { GetUsersUseCase } from './users/data-access/get-users.usecase'
 import { GetUsersService } from './users/data-access/get-users.service'
 import { StorageService } from './shared/services/storage/storage.service'
 import { StorageUseCase } from './shared/services/storage/storage.usecase'
+import { provideRouterStore } from '@ngrx/router-store'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,6 +38,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideStore(reducers, { metaReducers }),
     provideEffects(),
+    provideRouterStore(),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
