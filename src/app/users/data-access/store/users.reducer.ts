@@ -34,6 +34,10 @@ const reducer = createReducer(
     ...state,
     users: [...state.users, user],
   })),
+  on(usersActions.updateUser, (state, { user }) => ({
+    ...state,
+    users: state.users.map((currentUser) => (user.id === currentUser.id ? user : currentUser)),
+  })),
   on(usersActions.removeUser, (state, { id }) => ({
     ...state,
     users: state.users.filter((user) => user.id !== id),

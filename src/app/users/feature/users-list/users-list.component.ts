@@ -11,6 +11,7 @@ import { UserInterface } from '../../data-access/types/user.interface'
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
 import { ContainerComponent } from '../../../shared/ui/container/container.component'
+import { StorageService } from '../../../shared/services/storage.service'
 
 @Component({
   selector: 'app-users-list',
@@ -24,18 +25,18 @@ import { ContainerComponent } from '../../../shared/ui/container/container.compo
 export class UsersListComponent implements OnInit {
   private store = inject(Store)
   private dialog = inject(MatDialog)
+  private storageService = inject(StorageService)
 
   users$: Observable<UserInterface[]> = this.store.select(usersFeature.selectUsers)
 
   ngOnInit(): void {
-    this.store.dispatch(usersActions.getUsers())
+    const users = this.storageService.get('users')
+    if (!users) this.store.dispatch(usersActions.getUsers())
   }
 
   removeUserHandler(id: number): void {
     this.store.dispatch(usersActions.removeUser({ id }))
   }
-
-  updateUserHandler(userData: UserInterface): void {}
 
   openDialog(user?: UserInterface): void {
     const isEdit = computed<boolean>(() => Boolean(user))
@@ -51,9 +52,10 @@ export class UsersListComponent implements OnInit {
       .subscribe((user): void => {
         if (!user) return
 
-        isEdit()
-          ? this.updateUserHandler(user)
-          : this.store.dispatch(usersActions.createUser({ user }))
+        const dispatchAction = isEdit()
+          ? usersActions.updateUser({ user })
+          : usersActions.createUser({ user })
+        this.store.dispatch(dispatchAction)
       })
   }
 }

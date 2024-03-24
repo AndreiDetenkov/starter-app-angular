@@ -1,29 +1,35 @@
 import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs'
 import { inject } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
+import { Store } from '@ngrx/store'
 
 import { UsersClientService } from '../services/users-client.service'
 import { usersActions } from './users.actions'
 import { UserInterface } from '../types/user.interface'
 import { NotifyService } from '../../../shared/services/notify.service'
 import { StorageService } from '../../../shared/services/storage.service'
-import { Store } from '@ngrx/store'
 import { usersFeature } from './users.reducer'
 
 export const getUsersEffect = createEffect(
-  (actions$ = inject(Actions), usersClientService = inject(UsersClientService)) => {
-    return actions$.pipe(
+  (
+    actions$ = inject(Actions),
+    usersClientService = inject(UsersClientService),
+    storageService = inject(StorageService),
+  ) =>
+    actions$.pipe(
       ofType(usersActions.getUsers),
-      exhaustMap(() => {
-        return usersClientService.fetchUsers().pipe(
-          map((users: UserInterface[]) => usersActions.getUsersSuccess({ users })),
+      exhaustMap(() =>
+        usersClientService.fetchUsers().pipe(
+          map((users: UserInterface[]) => {
+            storageService.set('users', users)
+            return usersActions.getUsersSuccess({ users })
+          }),
           catchError(() => {
             return of(usersActions.getUsersFailure())
           }),
-        )
-      }),
-    )
-  },
+        ),
+      ),
+    ),
   { functional: true },
 )
 
@@ -33,8 +39,8 @@ export const createUserEffect = createEffect(
     notifyService = inject(NotifyService),
     storageService = inject(StorageService),
     store = inject(Store),
-  ) => {
-    return actions$.pipe(
+  ) =>
+    actions$.pipe(
       ofType(usersActions.createUser),
       switchMap(() =>
         store
@@ -42,8 +48,26 @@ export const createUserEffect = createEffect(
           .pipe(map((users) => storageService.set('users', users))),
       ),
       tap(() => notifyService.success('User created!')),
-    )
-  },
+    ),
+  { functional: true, dispatch: false },
+)
+
+export const updateUserEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    notifyService = inject(NotifyService),
+    storageService = inject(StorageService),
+    store = inject(Store),
+  ) =>
+    actions$.pipe(
+      ofType(usersActions.updateUser),
+      switchMap(() =>
+        store
+          .select(usersFeature.selectUsers)
+          .pipe(map((users) => storageService.set('users', users))),
+      ),
+      tap(() => notifyService.success('User updated!')),
+    ),
   { functional: true, dispatch: false },
 )
 
@@ -53,8 +77,8 @@ export const removeUserEffect = createEffect(
     notifyService = inject(NotifyService),
     storageService = inject(StorageService),
     store = inject(Store),
-  ) => {
-    return actions$.pipe(
+  ) =>
+    actions$.pipe(
       ofType(usersActions.removeUser),
       switchMap(() =>
         store
@@ -62,7 +86,6 @@ export const removeUserEffect = createEffect(
           .pipe(map((users) => storageService.set('users', users))),
       ),
       tap(() => notifyService.success('User removed!')),
-    )
-  },
+    ),
   { functional: true, dispatch: false },
 )
