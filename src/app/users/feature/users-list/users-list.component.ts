@@ -31,7 +31,11 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
     const users = this.storageService.get('users')
-    if (!users) this.store.dispatch(usersActions.getUsers())
+
+    const dispatchAction = users
+      ? usersActions.setUsers({ users: users as UserInterface[] })
+      : usersActions.getUsers()
+    this.store.dispatch(dispatchAction)
   }
 
   removeUserHandler(id: number): void {
