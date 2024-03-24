@@ -1,4 +1,4 @@
-import { Observable, take } from 'rxjs'
+import { filter, Observable } from 'rxjs'
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
@@ -52,10 +52,8 @@ export class UsersListComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .pipe(take(1))
-      .subscribe((user): void => {
-        if (!user) return
-
+      .pipe(filter((user) => Boolean(user)))
+      .subscribe((user) => {
         const dispatchAction = isEdit()
           ? usersActions.updateUser({ user })
           : usersActions.createUser({ user })
