@@ -9,7 +9,7 @@ import { User } from '../models/user'
 import { NotifyService } from '../../../shared/services/notify.service'
 import { StorageService } from '../../../shared/services/storage.service'
 import { usersFeature } from './users.reducer'
-import { notifyConfig } from '../constants/notify-config'
+import { userNotifyConfig } from '../constants/user-notify-config'
 
 export const getUsersEffect = createEffect(
   (
@@ -46,7 +46,7 @@ export const createUserEffect = createEffect(
       withLatestFrom(store.select(usersFeature.selectUsers)),
       map(([_, users]) => storage.set('users', users)),
       tap(() => {
-        const { msg, action } = notifyConfig.createUser
+        const { msg, action } = userNotifyConfig.createUser
         notify.open(msg, action)
       }),
     ),
@@ -65,7 +65,7 @@ export const updateUserEffect = createEffect(
       withLatestFrom(store.select(usersFeature.selectUsers)),
       map(([_, users]) => storage.set('users', users)),
       tap(() => {
-        const { msg, action } = notifyConfig.updateUser
+        const { msg, action } = userNotifyConfig.updateUser
         notify.open(msg, action)
       }),
     ),
@@ -84,7 +84,7 @@ export const removeUserEffect = createEffect(
       withLatestFrom(store.select(usersFeature.selectUsers)),
       map(([_, users]) => storage.set('users', users)),
       tap(() => {
-        const { msg, action } = notifyConfig.removeUser
+        const { msg, action } = userNotifyConfig.removeUser
         notify.open(msg, action)
       }),
     ),
