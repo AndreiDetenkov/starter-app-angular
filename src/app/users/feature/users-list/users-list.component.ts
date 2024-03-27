@@ -1,5 +1,6 @@
-import { filter, Observable } from 'rxjs'
+import { filter } from 'rxjs'
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { AsyncPipe } from '@angular/common'
@@ -23,19 +24,18 @@ import { StorageService } from '../../../shared/services/storage.service'
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
-  private store = inject(Store)
-  private dialog = inject(MatDialog)
-  private storageService = inject(StorageService)
+  readonly store = inject(Store)
+  readonly dialog = inject(MatDialog)
+  readonly storageService = inject(StorageService)
 
-  users$: Observable<User[]> = this.store.select(usersFeature.selectUsers)
+  users$ = this.store.select(usersFeature.selectUsers)
 
   ngOnInit(): void {
     const users = this.storageService.get('users')
 
-    const dispatchAction = users
-      ? usersActions.setUsers({ users: users as User[] })
-      : usersActions.getUsers()
-    this.store.dispatch(dispatchAction)
+    this.store.dispatch(
+      users ? usersActions.setUsers({ users: users as User[] }) : usersActions.getUsers(),
+    )
   }
 
   removeUserHandler(id: number): void {
@@ -52,12 +52,12 @@ export class UsersListComponent implements OnInit {
 
     dialogRef
       .afterClosed()
+      .pipe(takeUntilDestroyed())
       .pipe(filter((user) => Boolean(user)))
-      .subscribe((user) => {
-        const dispatchAction = isEdit()
-          ? usersActions.updateUser({ user })
-          : usersActions.createUser({ user })
-        this.store.dispatch(dispatchAction)
-      })
+      .subscribe((user) =>
+        this.store.dispatch(
+          isEdit() ? usersActions.updateUser({ user }) : usersActions.createUser({ user }),
+        ),
+      )
   }
 }
