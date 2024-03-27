@@ -1,4 +1,4 @@
-import { UserFormValidationInterface } from '../data-access/types/user-form-validation.interface'
+import { UserFormValidationInterface } from '../data-access/models/user-form-validation.interface'
 
 export const userFormValidationMessages: UserFormValidationInterface = {
   name: [

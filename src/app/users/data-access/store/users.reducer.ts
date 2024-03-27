@@ -1,12 +1,12 @@
 import { createFeature, createReducer, on } from '@ngrx/store'
 
-import { UserInterface } from '../types/user.interface'
+import { User } from '../models/user'
 import { usersActions } from './users.actions'
 
 const userFeatureKey = 'users'
 
 interface State {
-  users: UserInterface[]
+  users: User[]
   loading: boolean
 }
 

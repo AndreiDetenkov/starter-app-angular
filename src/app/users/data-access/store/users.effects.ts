@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store'
 
 import { UsersClientService } from '../services/users-client.service'
 import { usersActions } from './users.actions'
-import { UserInterface } from '../types/user.interface'
+import { User } from '../models/user'
 import { NotifyService } from '../../../shared/services/notify.service'
 import { StorageService } from '../../../shared/services/storage.service'
 import { usersFeature } from './users.reducer'
@@ -20,7 +20,7 @@ export const getUsersEffect = createEffect(
       ofType(usersActions.getUsers),
       exhaustMap(() =>
         usersClientService.fetchUsers().pipe(
-          map((users: UserInterface[]) => {
+          map((users: User[]) => {
             storageService.set('users', users)
             return usersActions.getUsersSuccess({ users })
           }),

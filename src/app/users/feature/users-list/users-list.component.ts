@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store'
 
 import { usersActions } from '../../data-access/store/users.actions'
 import { usersFeature } from '../../data-access/store/users.reducer'
-import { UserInterface } from '../../data-access/types/user.interface'
+import { User } from '../../data-access/models/user'
 import { UserCardComponent } from '../../ui/user-card/user-card.component'
 import { CreateEditUserModalComponent } from '../../ui/create-edit-user-modal/create-edit-user-modal.component'
 import { ContainerComponent } from '../../../shared/ui/container/container.component'
@@ -27,13 +27,13 @@ export class UsersListComponent implements OnInit {
   private dialog = inject(MatDialog)
   private storageService = inject(StorageService)
 
-  users$: Observable<UserInterface[]> = this.store.select(usersFeature.selectUsers)
+  users$: Observable<User[]> = this.store.select(usersFeature.selectUsers)
 
   ngOnInit(): void {
     const users = this.storageService.get('users')
 
     const dispatchAction = users
-      ? usersActions.setUsers({ users: users as UserInterface[] })
+      ? usersActions.setUsers({ users: users as User[] })
       : usersActions.getUsers()
     this.store.dispatch(dispatchAction)
   }
@@ -42,7 +42,7 @@ export class UsersListComponent implements OnInit {
     this.store.dispatch(usersActions.removeUser({ id }))
   }
 
-  openDialog(user?: UserInterface): void {
+  openDialog(user?: User): void {
     const isEdit = computed<boolean>(() => Boolean(user))
 
     const dialogRef: MatDialogRef<CreateEditUserModalComponent> = this.dialog.open(

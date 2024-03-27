@@ -1,20 +1,20 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
 
-import { UserInterface } from '../types/user.interface'
+import { User } from '../models/user'
 
 export const usersActions = createActionGroup({
   source: 'users',
   events: {
     getUsers: emptyProps(),
-    getUsersSuccess: props<{ users: UserInterface[] }>(),
+    getUsersSuccess: props<{ users: User[] }>(),
     getUsersFailure: emptyProps(),
 
-    createUser: props<{ user: UserInterface }>(),
+    createUser: props<{ user: User }>(),
 
-    updateUser: props<{ user: UserInterface }>(),
+    updateUser: props<{ user: User }>(),
 
     removeUser: props<{ id: number }>(),
 
-    setUsers: props<{ users: UserInterface[] }>(),
+    setUsers: props<{ users: User[] }>(),
   },
 })

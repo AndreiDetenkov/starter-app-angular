@@ -7,8 +7,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common'
 
 import { buttonLabel, titleLabel, userFormValidationMessages } from '../../utils/consts'
-import { UserFormValidationInterface } from '../../data-access/types/user-form-validation.interface'
-import { UserInterface } from '../../data-access/types/user.interface'
+import { UserFormValidationInterface } from '../../data-access/models/user-form-validation.interface'
+import { User } from '../../data-access/models/user'
 
 @Component({
   selector: 'app-create-edit-user',
@@ -52,7 +52,7 @@ export class CreateEditUserModalComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CreateEditUserModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user?: UserInterface },
+    @Inject(MAT_DIALOG_DATA) public data: { user?: User },
   ) {
     this.data.user && this.userForm.patchValue(this.data.user)
   }
