@@ -1,16 +1,11 @@
-import { StorageUseCase } from './storage.usecase'
 import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
 })
-export class StorageService implements StorageUseCase {
+export class StorageService {
   set(key: string, data: unknown): void {
-    try {
-      localStorage.setItem(key, JSON.stringify(data))
-    } catch (error) {
-      console.error('Error saving to localStorage', error)
-    }
+    localStorage.setItem(key, JSON.stringify(data))
   }
 
   get(key: string): unknown {

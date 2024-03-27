@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Inject, OnInit, Signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, Inject, Signal } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 
-import { buttonLabel, titleLabel, userFormValidationMessages } from '../../utils/consts'
-import { UserFormValidationInterface } from '../../data-access/types/user-create-edit.interface'
-import { UserInterface } from '../../data-access/types/user.interface'
+import { UserFormValidation } from '../../data-access/models/user-form-validation'
+import { User } from '../../data-access/models/user'
+import { userFormValidationMessages } from '../../data-access/constants/user-form-validation-messages'
+import { buttonLabel, titleLabel } from '../../data-access/constants/user-form-labels'
 
 @Component({
   selector: 'app-create-edit-user',
@@ -26,7 +27,7 @@ import { UserInterface } from '../../data-access/types/user.interface'
   styleUrl: './create-edit-user-modal.component.scss',
 })
 export class CreateEditUserModalComponent {
-  userFormValidation: UserFormValidationInterface = userFormValidationMessages
+  userFormValidation: UserFormValidation = userFormValidationMessages
 
   userForm: FormGroup = this.fb.nonNullable.group({
     id: [Date.now()],
@@ -52,7 +53,7 @@ export class CreateEditUserModalComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CreateEditUserModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user?: UserInterface },
+    @Inject(MAT_DIALOG_DATA) public data: { user?: User },
   ) {
     this.data.user && this.userForm.patchValue(this.data.user)
   }

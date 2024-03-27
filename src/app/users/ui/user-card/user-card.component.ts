@@ -12,7 +12,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatTooltip } from '@angular/material/tooltip'
 
-import { UserInterface } from '../../data-access/types/user.interface'
+import { User } from '../../data-access/models/user'
 import { NgOptimizedImage } from '@angular/common'
 
 @Component({
@@ -32,10 +32,10 @@ import { NgOptimizedImage } from '@angular/common'
   styleUrl: './user-card.component.scss',
 })
 export class UserCardComponent {
-  user = input.required<UserInterface>()
+  user = input.required<User>()
 
   companyName = computed<string>(() => {
-    return this.user().company?.name ?? 'No company'
+    return this.user().company ?? 'No company'
   })
 
   contentList = computed<{ icon: string; value: string }[]>(() => {
@@ -50,7 +50,7 @@ export class UserCardComponent {
   remove = new EventEmitter<number>()
 
   @Output()
-  edit = new EventEmitter<UserInterface>()
+  edit = new EventEmitter<User>()
 
   onRemoveUser(): void {
     this.remove.emit(this.user().id)
