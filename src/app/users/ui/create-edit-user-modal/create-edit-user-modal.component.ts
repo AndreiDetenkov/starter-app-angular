@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 
-import { buttonLabel, titleLabel, userFormValidationMessages } from '../../utils/consts'
-import { UserFormValidationInterface } from '../../data-access/models/user-form-validation.interface'
+import { UserFormValidation } from '../../data-access/models/user-form-validation'
 import { User } from '../../data-access/models/user'
+import { userFormValidationMessages } from '../../data-access/constants/user-form-validation-messages'
+import { buttonLabel, titleLabel } from '../../data-access/constants/user-form-labels'
 
 @Component({
   selector: 'app-create-edit-user',
@@ -26,7 +27,7 @@ import { User } from '../../data-access/models/user'
   styleUrl: './create-edit-user-modal.component.scss',
 })
 export class CreateEditUserModalComponent {
-  userFormValidation: UserFormValidationInterface = userFormValidationMessages
+  userFormValidation: UserFormValidation = userFormValidationMessages
 
   userForm: FormGroup = this.fb.nonNullable.group({
     id: [Date.now()],

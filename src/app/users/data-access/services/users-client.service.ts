@@ -17,7 +17,7 @@ export class UsersClientService {
     @Inject(API_URL) private readonly url: string,
   ) {}
 
-  fetchUsers(): Observable<User[]> {
+  get(): Observable<User[]> {
     return this.http.get<UserResponse[]>(this.url + '/users').pipe(
       map((users) => users.map((user) => this.adapter.adapt(user))),
       catchError(() => EMPTY),

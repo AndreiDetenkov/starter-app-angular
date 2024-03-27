@@ -9,6 +9,7 @@ import { User } from '../models/user'
 import { NotifyService } from '../../../shared/services/notify.service'
 import { StorageService } from '../../../shared/services/storage.service'
 import { usersFeature } from './users.reducer'
+import { notifyConfig } from '../constants/notify-config'
 
 export const getUsersEffect = createEffect(
   (
@@ -19,7 +20,7 @@ export const getUsersEffect = createEffect(
     actions$.pipe(
       ofType(usersActions.getUsers),
       exhaustMap(() =>
-        usersClientService.fetchUsers().pipe(
+        usersClientService.get().pipe(
           map((users: User[]) => {
             storage.set('users', users)
             return usersActions.getUsersSuccess({ users })
@@ -44,7 +45,10 @@ export const createUserEffect = createEffect(
       ofType(usersActions.createUser),
       withLatestFrom(store.select(usersFeature.selectUsers)),
       map(([_, users]) => storage.set('users', users)),
-      tap(() => notify.open('User created!', 'Close')),
+      tap(() => {
+        const { msg, action } = notifyConfig.createUser
+        notify.open(msg, action)
+      }),
     ),
   { functional: true, dispatch: false },
 )
@@ -60,7 +64,10 @@ export const updateUserEffect = createEffect(
       ofType(usersActions.updateUser),
       withLatestFrom(store.select(usersFeature.selectUsers)),
       map(([_, users]) => storage.set('users', users)),
-      tap(() => notify.open('User updated!', 'Close')),
+      tap(() => {
+        const { msg, action } = notifyConfig.updateUser
+        notify.open(msg, action)
+      }),
     ),
   { functional: true, dispatch: false },
 )
@@ -76,7 +83,10 @@ export const removeUserEffect = createEffect(
       ofType(usersActions.removeUser),
       withLatestFrom(store.select(usersFeature.selectUsers)),
       map(([_, users]) => storage.set('users', users)),
-      tap(() => notify.open('User removed!', 'Close')),
+      tap(() => {
+        const { msg, action } = notifyConfig.removeUser
+        notify.open(msg, action)
+      }),
     ),
   { functional: true, dispatch: false },
 )

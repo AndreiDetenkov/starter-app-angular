@@ -1,4 +1,4 @@
-export interface UserFormValidationInterface {
+export interface UserFormValidation {
   name: ValidationMessageInterface[]
   website: ValidationMessageInterface[]
   phone: ValidationMessageInterface[]

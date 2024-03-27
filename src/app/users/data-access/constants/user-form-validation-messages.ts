@@ -1,6 +1,6 @@
-import { UserFormValidationInterface } from '../data-access/models/user-form-validation.interface'
+import { UserFormValidation } from '../models/user-form-validation'
 
-export const userFormValidationMessages: UserFormValidationInterface = {
+export const userFormValidationMessages: UserFormValidation = {
   name: [
     { type: 'required', message: `Name is required` },
     { type: 'minlength', message: `Name must be at least 3 characters long` },
@@ -19,14 +19,4 @@ export const userFormValidationMessages: UserFormValidationInterface = {
     { type: 'required', message: `Email is required` },
     { type: 'pattern', message: `Enter a valid email address` },
   ],
-}
-
-export const titleLabel = {
-  create: 'Create user',
-  edit: 'Edit user',
-}
-
-export const buttonLabel = {
-  create: 'Create',
-  edit: 'Edit',
 }
