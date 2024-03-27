@@ -24,9 +24,9 @@ import { StorageService } from '../../../shared/services/storage.service'
   styleUrl: './users-list.component.scss',
 })
 export class UsersListComponent implements OnInit {
-  readonly store = inject(Store)
-  readonly dialog = inject(MatDialog)
-  readonly storageService = inject(StorageService)
+  private readonly store = inject(Store)
+  private readonly dialog = inject(MatDialog)
+  private readonly storageService = inject(StorageService)
 
   users$ = this.store.select(usersFeature.selectUsers)
 
