@@ -31,6 +31,10 @@ export class UsersListComponent implements OnInit {
   users$ = this.store.select(usersFeature.selectUsers)
 
   ngOnInit(): void {
+    this.initUsers()
+  }
+
+  initUsers(): void {
     const users = this.storageService.get('users')
 
     this.store.dispatch(
