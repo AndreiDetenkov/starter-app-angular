@@ -1,4 +1,4 @@
-import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs'
+import { catchError, exhaustMap, map, of, tap, withLatestFrom } from 'rxjs'
 import { inject } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
@@ -14,14 +14,14 @@ export const getUsersEffect = createEffect(
   (
     actions$ = inject(Actions),
     usersClientService = inject(UsersClientService),
-    storageService = inject(StorageService),
+    storage = inject(StorageService),
   ) =>
     actions$.pipe(
       ofType(usersActions.getUsers),
       exhaustMap(() =>
         usersClientService.fetchUsers().pipe(
           map((users: User[]) => {
-            storageService.set('users', users)
+            storage.set('users', users)
             return usersActions.getUsersSuccess({ users })
           }),
           catchError(() => {
@@ -36,18 +36,15 @@ export const getUsersEffect = createEffect(
 export const createUserEffect = createEffect(
   (
     actions$ = inject(Actions),
-    notifyService = inject(NotifyService),
-    storageService = inject(StorageService),
+    notify = inject(NotifyService),
+    storage = inject(StorageService),
     store = inject(Store),
   ) =>
     actions$.pipe(
       ofType(usersActions.createUser),
-      switchMap(() =>
-        store
-          .select(usersFeature.selectUsers)
-          .pipe(map((users) => storageService.set('users', users))),
-      ),
-      tap(() => notifyService.success('User created!')),
+      withLatestFrom(store.select(usersFeature.selectUsers)),
+      map(([_, users]) => storage.set('users', users)),
+      tap(() => notify.open('User created!', 'Close')),
     ),
   { functional: true, dispatch: false },
 )
@@ -55,18 +52,15 @@ export const createUserEffect = createEffect(
 export const updateUserEffect = createEffect(
   (
     actions$ = inject(Actions),
-    notifyService = inject(NotifyService),
-    storageService = inject(StorageService),
+    notify = inject(NotifyService),
+    storage = inject(StorageService),
     store = inject(Store),
   ) =>
     actions$.pipe(
       ofType(usersActions.updateUser),
-      switchMap(() =>
-        store
-          .select(usersFeature.selectUsers)
-          .pipe(map((users) => storageService.set('users', users))),
-      ),
-      tap(() => notifyService.success('User updated!')),
+      withLatestFrom(store.select(usersFeature.selectUsers)),
+      map(([_, users]) => storage.set('users', users)),
+      tap(() => notify.open('User updated!', 'Close')),
     ),
   { functional: true, dispatch: false },
 )
@@ -74,18 +68,15 @@ export const updateUserEffect = createEffect(
 export const removeUserEffect = createEffect(
   (
     actions$ = inject(Actions),
-    notifyService = inject(NotifyService),
-    storageService = inject(StorageService),
+    notify = inject(NotifyService),
+    storage = inject(StorageService),
     store = inject(Store),
   ) =>
     actions$.pipe(
       ofType(usersActions.removeUser),
-      switchMap(() =>
-        store
-          .select(usersFeature.selectUsers)
-          .pipe(map((users) => storageService.set('users', users))),
-      ),
-      tap(() => notifyService.success('User removed!')),
+      withLatestFrom(store.select(usersFeature.selectUsers)),
+      map(([_, users]) => storage.set('users', users)),
+      tap(() => notify.open('User removed!', 'Close')),
     ),
   { functional: true, dispatch: false },
 )

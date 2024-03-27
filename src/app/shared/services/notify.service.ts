@@ -1,4 +1,4 @@
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar'
 import { inject, Injectable } from '@angular/core'
 
 @Injectable({
@@ -7,11 +7,7 @@ import { inject, Injectable } from '@angular/core'
 export class NotifyService {
   private snackBar = inject(MatSnackBar)
 
-  success(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-      horizontalPosition: 'end',
-    })
+  open(message: string, action: string = '', config?: MatSnackBarConfig) {
+    return this.snackBar.open(message, action, config)
   }
 }
